@@ -27,14 +27,6 @@ app.use(
 app.use(express.json());
 app.use(cookieParser());
 
-if (process.env.NODE_ENV === "production") {
-  app.use(express.static(path.join(__dirname, "../client/dist")));
-
-  app.get(/.*/, (req, res) => {
-    res.sendFile(path.join(__dirname, "../client/dist/index.html"));
-  });
-}
-
 app.use("/api/auth", authRoute);
 app.use("/api/user", userRoute);
 
@@ -131,6 +123,14 @@ io.on("connection", (socket) => {
     console.log("Info - Disconnected", socket.id);
   });
 });
+
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static(path.join(__dirname, "../client/dist")));
+
+  app.get(/.*/, (req, res) => {
+    res.sendFile(path.join(__dirname, "../client/dist/index.html"));
+  });
+}
 
 (async () => {
   try {
