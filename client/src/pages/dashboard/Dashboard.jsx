@@ -362,7 +362,7 @@ const Dashboard = () => {
     setshowReceiverDetail(user);
   };
 
-  const filteredUsers = users.filter(
+  const filteredUsers = users?.filter(
     (u) =>
       u.username.toLowerCase().includes(searchQuery.toLowerCase()) ||
       u.email.toLowerCase().includes(searchQuery.toLowerCase())
@@ -420,7 +420,7 @@ const Dashboard = () => {
 
         {/* User List */}
         <ul className="space-y-4 overflow-y-auto">
-          {filteredUsers.map((user) => (
+          {filteredUsers?.map((user) => (
             <li
               key={user._id}
               className={`flex items-center gap-3 p-2 rounded-lg cursor-pointer ${
