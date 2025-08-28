@@ -5,7 +5,7 @@ const BASE_URL = import.meta.env.MODE === "development" ? import.meta.env.VITE_A
 
 // Create an instance of Axios
 const apiClient = axios.create({
-  baseURL: "http://localhost:3000/api",
+  baseURL: "https://firstwebrtcproject.onrender.com/api",
   withCredentials: true, 
 });
 
