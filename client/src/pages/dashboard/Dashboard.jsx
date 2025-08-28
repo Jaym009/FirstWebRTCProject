@@ -66,20 +66,30 @@ const Dashboard = () => {
       }
     };
   }, []);
-
   useEffect(() => {
+    console.log("📡 Dashboard mounted, socket initialized:", socket);
+
     if (user && socket && !hasJoined.current) {
+      console.log("➡️ Emitting join for user:", {
+        id: user._id,
+        name: user.username,
+      });
       socket.emit("join", { id: user._id, name: user.username });
       hasJoined.current = true;
     }
 
-    socket.on("me", (id) => setMe(id));
+    socket.on("me", (id) => {
+      console.log("✅ Received socket id:", id);
+      setMe(id);
+    });
 
     socket.on("online-users", (onlineUser) => {
+      console.log("👥 Online users updated:", onlineUser);
       setOnlineUsers(onlineUser);
     });
 
     socket.on("callToUser", (data) => {
+      console.log("📞 Incoming call:", data);
       setReceivingCall(true);
       setCaller(data);
       setCallerSignal(data.signal);
@@ -89,7 +99,7 @@ const Dashboard = () => {
     });
 
     socket.on("callEnded", (data) => {
-      console.log("call ended by", data.name);
+      console.log("📴 Call ended by:", data.name);
       if (ringtoneRef.current) {
         ringtoneRef.current.stop();
       }
@@ -97,6 +107,7 @@ const Dashboard = () => {
     });
 
     socket.on("callRejected", (data) => {
+      console.log("❌ Call rejected by:", data);
       setCallRejectedPopUp(true);
       setCallRejectedUser(data);
       if (ringtoneRef.current) {
@@ -104,8 +115,8 @@ const Dashboard = () => {
       }
     });
 
-    // Add this new event listener
     socket.on("userUnavailable", (data) => {
+      console.log("🚫 User unavailable:", data);
       setUserUnavailable(true);
       setUnavailableMessage(data.message);
       setCallerWating(false);
@@ -115,7 +126,6 @@ const Dashboard = () => {
         ringtoneRef.current.stop();
       }
 
-      // Clean up any media streams that might have been created
       if (stream) {
         stream.getTracks().forEach((track) => track.stop());
         setStream(null);
@@ -123,6 +133,7 @@ const Dashboard = () => {
     });
 
     return () => {
+      console.log("🧹 Cleaning up socket listeners...");
       socket.off("me");
       socket.off("online-users");
       socket.off("callToUser");
@@ -134,13 +145,15 @@ const Dashboard = () => {
 
   const allusers = async () => {
     try {
+      console.log("📥 Fetching users...");
       setLoading(true);
       const response = await apiClient.get("/user/");
+      console.log("✅ Users response:", response.data);
       if (response.data.success !== false) {
         setUsers(response.data.users);
       }
     } catch (error) {
-      console.error("Failed to fetch users", error);
+      console.error("❌ Failed to fetch users", error);
     } finally {
       setLoading(false);
     }

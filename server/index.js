@@ -19,7 +19,7 @@ const __dirname = path.resolve();
 
 app.use(
   cors({
-    origin: "*",
+    origin: "https://firstwebrtcproject.onrender.com/",
     credentials: true,
   })
 );
@@ -45,7 +45,7 @@ app.get("/", (req, res) => {
 const io = new Server(server, {
   pingTimeout: 60000,
   cors: {
-    origin: "*",
+    origin: "https://firstwebrtcproject.onrender.com/",
     methods: ["GET", "POST"],
     credentials: false,
   },
