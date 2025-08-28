@@ -5,7 +5,7 @@ const BASE_URL = import.meta.env.MODE === "development" ? import.meta.env.VITE_A
 
 // Create an instance of Axios
 const apiClient = axios.create({
-  baseURL: import.meta.env.VITE_API_BASE_URL,
+  baseURL: BASE_URL,
   withCredentials: true, 
 });
 
