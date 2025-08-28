@@ -30,10 +30,6 @@ app.use(cookieParser());
 app.use("/api/auth", authRoute);
 app.use("/api/user", userRoute);
 
-app.get("/", (req, res) => {
-  res.send("Hello World!");
-});
-
 const io = new Server(server, {
   pingTimeout: 60000,
   cors: {
@@ -131,6 +127,10 @@ if (process.env.NODE_ENV === "production") {
     res.sendFile(path.join(__dirname, "../client/dist/index.html"));
   });
 }
+
+app.get("/", (req, res) => {
+  res.send("Hello World!");
+});
 
 (async () => {
   try {
