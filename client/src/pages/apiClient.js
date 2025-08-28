@@ -1,7 +1,7 @@
 // src/utils/axios.js
 import axios from 'axios';
 
-const BASE_URL = import.meta.env.MODE === "development" ? import.meta.env.VITE_API_BASE_URL : "/api"
+const BASE_URL = import.meta.env.MODE === "development" ? import.meta.env.VITE_API_BASE_URL : "https://streaming-app-klhe.onrender.com/api"
 
 // Create an instance of Axios
 const apiClient = axios.create({
