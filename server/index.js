@@ -14,19 +14,12 @@ dotenv.config();
 
 const PORT = process.env.PORT || 3000;
 const server = createServer(app);
-const allowedOrigins = [process.env.CLIENT_URL, "http://192.168.29.7:5173"];
 
 const __dirname = path.resolve();
 
 app.use(
   cors({
-    origin: function (origin, callback) {
-      if (!origin || allowedOrigins.indexOf(origin) !== -1) {
-        callback(null, true);
-      } else {
-        callback(new Error("Not allowed by CORS"));
-      }
-    },
+    origin: "*",
     credentials: true,
   })
 );
@@ -52,8 +45,9 @@ app.get("/", (req, res) => {
 const io = new Server(server, {
   pingTimeout: 60000,
   cors: {
-    origin: allowedOrigins[0],
+    origin: "*",
     methods: ["GET", "POST"],
+    credentials: false,
   },
 });
 
